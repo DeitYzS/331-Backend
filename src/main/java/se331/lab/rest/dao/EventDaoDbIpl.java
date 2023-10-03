@@ -30,5 +30,10 @@ public class EventDaoDbIpl implements EventDao {
         return eventRepositoty.findById(id).orElse(null);
     }
 
+    @Override
+    public Event save(Event event) {
+        return null;
+    }
+
 
 }
