@@ -1,6 +1,10 @@
 package se331.lab.rest.dao;
 
 import jakarta.annotation.PostConstruct;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import se331.lab.rest.entity.Organizer;
 
@@ -8,48 +12,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Profile("manual")
 public class OrganizerDaoImpl implements OrganizerDao{
-        List<Organizer> eventList;
+        List<Organizer> organizerList;
 
         @PostConstruct
         public void init() {
-            eventList = new ArrayList<>();
-            eventList.add(Organizer.builder()
+            organizerList = new ArrayList<>();
+            organizerList.add(Organizer.builder()
                     .id(123L)
                     .address("Meow Town")
                     .organization_name("Kat Laydee")
                     .build()
             );
 
-            eventList.add(Organizer.builder()
+            organizerList.add(Organizer.builder()
                     .id(456L)
                     .address("Flora City")
                     .organization_name("Flora City")
                     .build()
             );
 
-            eventList.add(Organizer.builder()
+            organizerList.add(Organizer.builder()
                     .id(789L)
                     .address("Playa Del Carmen")
                     .organization_name("Carey Wales")
                     .build()
             );
 
-            eventList.add(Organizer.builder()
+            organizerList.add(Organizer.builder()
                     .id(1001L)
                     .address("Woof Town")
                     .organization_name("Dawg Dahd")
                     .build()
             );
 
-            eventList.add(Organizer.builder()
+            organizerList.add(Organizer.builder()
                     .id(1002L)
                     .address("Tin City")
                     .organization_name("Kahn Opiner")
                     .build()
             );
 
-            eventList.add(Organizer.builder()
+            organizerList.add(Organizer.builder()
                     .id(1003L)
                     .address("Highway 50")
                     .organization_name("Brody Kill")
@@ -59,24 +64,31 @@ public class OrganizerDaoImpl implements OrganizerDao{
 
         @Override
         public Integer getOrganizerSize() {
-            return eventList.size();
+            return organizerList.size();
         }
 
         @Override
-        public List<Organizer> getOrganizers(Integer pageSize, Integer page) {
-            pageSize = pageSize == null ? eventList.size() : pageSize;
+        public Page<Organizer> getOrganizers(Integer pageSize, Integer page) {
+            pageSize = pageSize == null ? organizerList.size() : pageSize;
             page = page == null ? 1 : page;
 
             int firstIndex = (page - 1) * pageSize;
-            return eventList.subList(firstIndex, firstIndex+pageSize);
+            return new PageImpl<Organizer>(organizerList.subList(firstIndex, firstIndex+pageSize), PageRequest.of(page, pageSize), organizerList.size());
         }
 
         @Override
         public Organizer getOrganizer(Long id) {
-            return eventList.stream().filter(event ->
+            return organizerList.stream().filter(event ->
                             event.getId()
                                     .equals(id))
                     .findFirst()
                     .orElse(null);
+        }
+
+        @Override
+        public Organizer save(Organizer organizer) {
+            organizer.setId(organizerList.get(organizerList.size()-1).getId()+1);
+            organizerList.add(organizer);
+            return organizer;
         }
 }

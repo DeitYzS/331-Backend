@@ -5,12 +5,16 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import se331.lab.rest.entity.Event;
+import se331.lab.rest.entity.Organizer;
 import se331.lab.rest.repository.EventRepository;
+import se331.lab.rest.repository.OrganizerRepository;
+
 
 @Component
 @RequiredArgsConstructor
 public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
     final EventRepository eventRepository;
+    final OrganizerRepository organizerRepository;
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
@@ -50,5 +54,45 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                 .time("10.00am - 6.00 pm.")
                 .petAllowed(true)
                 .organizer("Chiang Mai Municipality").build());
+
+        organizerRepository.save(Organizer.builder()
+                .id(123L)
+                .address("Meow Town")
+                .organization_name("Kat Laydee")
+                .build()
+        );
+        organizerRepository.save(Organizer.builder()
+                .id(456L)
+                .address("Flora City")
+                .organization_name("Flora City")
+                .build()
+        );
+        organizerRepository.save(Organizer.builder()
+                .id(789L)
+                .address("Playa Del Carmen")
+                .organization_name("Carey Wales")
+                .build()
+        );
+        organizerRepository.save(Organizer.builder()
+                .id(1001L)
+                .address("Woof Town")
+                .organization_name("Dawg Dahd")
+                .build()
+        );
+        organizerRepository.save(Organizer.builder()
+                .id(1002L)
+                .address("Tin City")
+                .organization_name("Kahn Opiner")
+                .build()
+        );
+        organizerRepository.save(Organizer.builder()
+                .id(1003L)
+                .address("Highway 50")
+                .organization_name("Brody Kill")
+                .build()
+        );
     }
+
+
+
 }
