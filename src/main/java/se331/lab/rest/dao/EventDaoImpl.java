@@ -114,8 +114,8 @@ public class EventDaoImpl implements EventDao {
     @Override
     public Event getEvent(Long id) {
         return eventList.stream().filter(event ->
-                event.getId()
-                .equals(id))
+                        event.getId()
+                                .equals(id))
                 .findFirst()
                 .orElse(null);
     }
