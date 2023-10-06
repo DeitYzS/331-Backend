@@ -7,8 +7,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import se331.lab.rest.entity.Event;
+import se331.lab.rest.entity.Organizer;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Profile("manual")
@@ -126,4 +129,6 @@ public class EventDaoImpl implements EventDao {
         eventList.add(event);
         return event;
     }
+
+
 }
