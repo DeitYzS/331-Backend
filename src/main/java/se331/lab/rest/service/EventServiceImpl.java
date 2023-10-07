@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se331.lab.rest.dao.EventDao;
 import se331.lab.rest.dao.OrganizerDao;
+import se331.lab.rest.dao.ParticipantDao;
 import se331.lab.rest.entity.Event;
 import se331.lab.rest.entity.Organizer;
+import se331.lab.rest.entity.Participant;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ import java.util.List;
 public class EventServiceImpl implements EventService{
     final EventDao eventDao;
     final OrganizerDao organizerDao;
+    final ParticipantDao participantDao;
     @Override
     public Integer getEventSize() {
         return eventDao.getEventSize();
@@ -36,8 +39,11 @@ public class EventServiceImpl implements EventService{
     @Transactional
     public Event save(Event event) {
         Organizer organizer = organizerDao.findById(event.getOrganizer().getId()).orElse(null);
+        Participant participant = participantDao.findById(event.getOrganizer().getId()).orElse(null);
         event.setOrganizer(organizer);
         organizer.getOwnEvents().add(event);
+        participant.getEventHistory().add(event);
+
         return eventDao.save(event);
     }
 

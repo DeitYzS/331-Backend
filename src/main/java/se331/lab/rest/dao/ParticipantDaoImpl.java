@@ -14,10 +14,9 @@ import java.util.Optional;
 public class ParticipantDaoImpl implements ParticipantDao{
     final ParticipantRepository participantRepository;
 
-
     @Override
-    public Page<Participant> getParticipants(Pageable pageReq) {
-        return ParticipantRepository.findAll(pageReq);
+    public Page<Participant> getParticipant(Pageable pageRequest) {
+        return  participantRepository.findAll(pageRequest);
     }
 
     @Override

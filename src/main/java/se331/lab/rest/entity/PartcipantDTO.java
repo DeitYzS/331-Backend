@@ -1,5 +1,6 @@
 package se331.lab.rest.entity;
 
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +16,5 @@ public class PartcipantDTO {
     Long id;
     String name;
     String telNo;
-    List<Event> eventHistory;
+    List<ParticipantOwnEventDTO> participantList;
 }
