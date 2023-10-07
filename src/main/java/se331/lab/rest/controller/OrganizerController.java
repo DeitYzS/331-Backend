@@ -14,9 +14,12 @@ import se331.lab.rest.util.LabMapper;
 @RequiredArgsConstructor
 public class OrganizerController {
     final OrganizerService organizerService;
+
     @GetMapping("/organizers")
     ResponseEntity<?> getOrganizers() {
+        System.out.println(LabMapper.INSTANCE.getOrganizerDto(organizerService.getAllOrganizer()));
        return ResponseEntity.ok(LabMapper.INSTANCE.getOrganizerDto(organizerService.getAllOrganizer()));
+
     }
 
     @GetMapping("organizers/{id}")

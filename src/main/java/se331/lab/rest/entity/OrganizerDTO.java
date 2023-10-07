@@ -1,7 +1,6 @@
 package se331.lab.rest.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +14,7 @@ public class OrganizerDTO {
     Long id;
     String name;
     String address;
-    List<OrganizerOwnEventsDTO> ownEvents = new ArrayList<>();
+    List<OrganizerEventDTO> ownEvents = new ArrayList<>();
 
 
 }

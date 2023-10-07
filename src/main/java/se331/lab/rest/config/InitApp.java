@@ -72,7 +72,6 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
 //                .participants()
                 .build());
         tempEvent.setOrganizer(org1);
-        tempEvent.getParticipants().add(p1);
         p1.getEventHistory().add(tempEvent);
         org1.getOwnEvents().add(tempEvent);
 
