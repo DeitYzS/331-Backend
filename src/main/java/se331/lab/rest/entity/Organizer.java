@@ -24,5 +24,8 @@ public class Organizer {
     @Builder.Default
     List<Event> ownEvents = new ArrayList<>();
 
+    @ElementCollection
+    List<String> images;
+
 }
 

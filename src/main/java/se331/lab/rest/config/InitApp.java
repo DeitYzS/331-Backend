@@ -56,6 +56,18 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                 .telNo("09-12315164")
                 .build());
         participantList.add(p3);
+        Participant p4 = participantRepository.save(Participant.builder()
+                .id(4L)
+                .name("Luxi")
+                .telNo("09-15645646")
+                .build());
+        participantList.add(p4);
+        Participant p5 = participantRepository.save(Participant.builder()
+                .id(5L)
+                .name("Pos")
+                .telNo("09-1165161")
+                .build());
+        participantList.add(p5);
 
 
 
@@ -69,7 +81,7 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                 .time("3.00-4.00 pm.")
                 .petAllowed(false)
                 .organizer(org1)
-//                .participants()
+                .participants(participantList)
                 .build());
         tempEvent.setOrganizer(org1);
         p1.getEventHistory().add(tempEvent);

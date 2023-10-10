@@ -15,4 +15,5 @@ public class EventOrganizerDTO{
     Long id;
     String name;
     String address;
+    List<String> images;
 }
