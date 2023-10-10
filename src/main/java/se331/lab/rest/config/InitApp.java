@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import se331.lab.rest.entity.Event;
@@ -13,8 +15,14 @@ import se331.lab.rest.entity.Participant;
 import se331.lab.rest.repository.EventRepository;
 import se331.lab.rest.repository.OrganizerRepository;
 import se331.lab.rest.repository.ParticipantRepository;
+import se331.lab.rest.security.user.Role;
+import se331.lab.rest.security.user.User;
+import se331.lab.rest.security.user.UserRepository;
 
+import java.time.ZoneId;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -25,6 +33,7 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
     final EventRepository eventRepository;
     final OrganizerRepository organizerRepository;
     final ParticipantRepository participantRepository;
+    final UserRepository userRepository;
 
     @Override
      @Transactional
@@ -133,43 +142,55 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
         tempEvent.setOrganizer(org3);
         tempEvent.setParticipants(participantList);
         org3.getOwnEvents().add(tempEvent);
+        addUser();
+            org1.setUser(user1);
+            user1.setOrganizer(org1);
+            org2.setUser(user2);
+            user2.setOrganizer(org2);
+            org3.setUser(user3);
+            user3.setOrganizer(org3);
+    }
+    User user1, user2, user3;
+    private void addUser() {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        user1 = User.builder()
+                .username("admin")
+                .password(encoder.encode("admin"))
+                .firstname("admin")
+                .lastname("admin")
+                .email("admin@admin.com")
+                .enabled(true)
+                .lastPasswordResetDate(Date.from(LocalDate.of(2021, 01, 01).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .build();
 
-//        organizerRepository.save(Organizer.builder()
-//                .id(123L)
-//                .address("Meow Town")
-//                .organization_name("Kat Laydee")
-//                .build()
-//        );
-//        organizerRepository.save(Organizer.builder()
-//                .id(456L)
-//                .address("Flora City")
-//                .organization_name("Flora City")
-//                .build()
-//        );
-//        organizerRepository.save(Organizer.builder()
-//                .id(789L)
-//                .address("Playa Del Carmen")
-//                .organization_name("Carey Wales")
-//                .build()
-//        );
-//        organizerRepository.save(Organizer.builder()
-//                .id(1001L)
-//                .address("Woof Town")
-//                .organization_name("Dawg Dahd")
-//                .build()
-//        );
-//        organizerRepository.save(Organizer.builder()
-//                .id(1002L)
-//                .address("Tin City")
-//                .organization_name("Kahn Opiner")
-//                .build()
-//        );
-//        organizerRepository.save(Organizer.builder()
-//                .id(1003L)
-//                .address("Highway 50")
-//                .organization_name("Brody Kill")
-//                .build()
-//        );
+        user2 = User.builder()
+                .username("user")
+                .password(encoder.encode("user"))
+                .firstname("user")
+                .lastname("user")
+                .email("enabled@user.com")
+                .enabled(true)
+                .lastPasswordResetDate(Date.from(LocalDate.of(2021, 01, 01).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .build();
+
+        user3 = User.builder()
+                .username("disableUser")
+                .password(encoder.encode("disableUser"))
+                .firstname("disableUser")
+                .lastname("disableUser")
+                .email("disableUser@user.com")
+                .enabled(false)
+                .lastPasswordResetDate(Date.from(LocalDate.of(2021, 01, 01).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .build();
+
+
+        user1.getRoles().add(Role.ROLE_ADMIN);
+        user2.getRoles().add(Role.ROLE_DISTRIBUTOR);
+        user3.getRoles().add(Role.ROLE_DISTRIBUTOR);
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+
 
     }
 }
