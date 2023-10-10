@@ -43,9 +43,11 @@ public class AuthenticationService {
             .lastname(request.getLastname())
             .email(request.getEmail())
             .username(request.getUsername())
+            .organizer(organizer)
             .password(passwordEncoder.encode(request.getPassword()))
             .roles(List.of(Role.ROLE_DISTRIBUTOR))
             .build();
+    organizerRepository.save(organizer);
     var savedUser = repository.save(user);
     organizer.setUser(user);
     organizerRepository.save(organizer);
